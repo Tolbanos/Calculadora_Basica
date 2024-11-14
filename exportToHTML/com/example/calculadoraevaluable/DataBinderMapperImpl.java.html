@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>DataBinderMapperImpl.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+DataBinderMapperImpl.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">calculadoraevaluable</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">SparseArray</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">SparseIntArray</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">View</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">databinding</span><span class="s2">.</span><span class="s1">DataBinderMapper</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">databinding</span><span class="s2">.</span><span class="s1">DataBindingComponent</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">databinding</span><span class="s2">.</span><span class="s1">ViewDataBinding</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">lang</span><span class="s2">.</span><span class="s1">Integer</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">lang</span><span class="s2">.</span><span class="s1">Object</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">lang</span><span class="s2">.</span><span class="s1">Override</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">lang</span><span class="s2">.</span><span class="s1">RuntimeException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">lang</span><span class="s2">.</span><span class="s1">String</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">HashMap</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">DataBinderMapperImpl </span><span class="s0">extends </span><span class="s1">DataBinderMapper </span><span class="s2">{</span>
+  <span class="s0">private static final </span><span class="s1">SparseIntArray INTERNAL_LAYOUT_ID_LOOKUP </span><span class="s2">= </span><span class="s0">new </span><span class="s1">SparseIntArray</span><span class="s2">(</span><span class="s3">0</span><span class="s2">);</span>
+
+  <span class="s1">@Override</span>
+  <span class="s0">public </span><span class="s1">ViewDataBinding getDataBinder</span><span class="s2">(</span><span class="s1">DataBindingComponent component</span><span class="s2">, </span><span class="s1">View view</span><span class="s2">, </span><span class="s0">int </span><span class="s1">layoutId</span><span class="s2">) {</span>
+    <span class="s0">int </span><span class="s1">localizedLayoutId </span><span class="s2">= </span><span class="s1">INTERNAL_LAYOUT_ID_LOOKUP</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">layoutId</span><span class="s2">);</span>
+    <span class="s0">if</span><span class="s2">(</span><span class="s1">localizedLayoutId </span><span class="s2">&gt; </span><span class="s3">0</span><span class="s2">) {</span>
+      <span class="s0">final </span><span class="s1">Object tag </span><span class="s2">= </span><span class="s1">view</span><span class="s2">.</span><span class="s1">getTag</span><span class="s2">();</span>
+      <span class="s0">if</span><span class="s2">(</span><span class="s1">tag </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+        <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;view must have a tag&quot;</span><span class="s2">);</span>
+      <span class="s2">}</span>
+    <span class="s2">}</span>
+    <span class="s0">return null</span><span class="s2">;</span>
+  <span class="s2">}</span>
+
+  <span class="s1">@Override</span>
+  <span class="s0">public </span><span class="s1">ViewDataBinding getDataBinder</span><span class="s2">(</span><span class="s1">DataBindingComponent component</span><span class="s2">, </span><span class="s1">View</span><span class="s2">[] </span><span class="s1">views</span><span class="s2">, </span><span class="s0">int </span><span class="s1">layoutId</span><span class="s2">) {</span>
+    <span class="s0">if</span><span class="s2">(</span><span class="s1">views </span><span class="s2">== </span><span class="s0">null </span><span class="s2">|| </span><span class="s1">views</span><span class="s2">.</span><span class="s1">length </span><span class="s2">== </span><span class="s3">0</span><span class="s2">) {</span>
+      <span class="s0">return null</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s0">int </span><span class="s1">localizedLayoutId </span><span class="s2">= </span><span class="s1">INTERNAL_LAYOUT_ID_LOOKUP</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">layoutId</span><span class="s2">);</span>
+    <span class="s0">if</span><span class="s2">(</span><span class="s1">localizedLayoutId </span><span class="s2">&gt; </span><span class="s3">0</span><span class="s2">) {</span>
+      <span class="s0">final </span><span class="s1">Object tag </span><span class="s2">= </span><span class="s1">views</span><span class="s2">[</span><span class="s3">0</span><span class="s2">].</span><span class="s1">getTag</span><span class="s2">();</span>
+      <span class="s0">if</span><span class="s2">(</span><span class="s1">tag </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+        <span class="s0">throw new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;view must have a tag&quot;</span><span class="s2">);</span>
+      <span class="s2">}</span>
+      <span class="s0">switch</span><span class="s2">(</span><span class="s1">localizedLayoutId</span><span class="s2">) {</span>
+      <span class="s2">}</span>
+    <span class="s2">}</span>
+    <span class="s0">return null</span><span class="s2">;</span>
+  <span class="s2">}</span>
+
+  <span class="s1">@Override</span>
+  <span class="s0">public int </span><span class="s1">getLayoutId</span><span class="s2">(</span><span class="s1">String tag</span><span class="s2">) {</span>
+    <span class="s0">if </span><span class="s2">(</span><span class="s1">tag </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+      <span class="s0">return </span><span class="s3">0</span><span class="s2">;</span>
+    <span class="s2">}</span>
+    <span class="s1">Integer tmpVal </span><span class="s2">= </span><span class="s1">InnerLayoutIdLookup</span><span class="s2">.</span><span class="s1">sKeys</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">tag</span><span class="s2">);</span>
+    <span class="s0">return </span><span class="s1">tmpVal </span><span class="s2">== </span><span class="s0">null </span><span class="s2">? </span><span class="s3">0 </span><span class="s2">: </span><span class="s1">tmpVal</span><span class="s2">;</span>
+  <span class="s2">}</span>
+
+  <span class="s1">@Override</span>
+  <span class="s0">public </span><span class="s1">String convertBrIdToString</span><span class="s2">(</span><span class="s0">int </span><span class="s1">localId</span><span class="s2">) {</span>
+    <span class="s1">String tmpVal </span><span class="s2">= </span><span class="s1">InnerBrLookup</span><span class="s2">.</span><span class="s1">sKeys</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">localId</span><span class="s2">);</span>
+    <span class="s0">return </span><span class="s1">tmpVal</span><span class="s2">;</span>
+  <span class="s2">}</span>
+
+  <span class="s1">@Override</span>
+  <span class="s0">public </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">DataBinderMapper</span><span class="s2">&gt; </span><span class="s1">collectDependencies</span><span class="s2">() {</span>
+    <span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">DataBinderMapper</span><span class="s2">&gt; </span><span class="s1">result </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">DataBinderMapper</span><span class="s2">&gt;(</span><span class="s3">1</span><span class="s2">);</span>
+    <span class="s1">result</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">databinding</span><span class="s2">.</span><span class="s1">library</span><span class="s2">.</span><span class="s1">baseAdapters</span><span class="s2">.</span><span class="s1">DataBinderMapperImpl</span><span class="s2">());</span>
+    <span class="s0">return </span><span class="s1">result</span><span class="s2">;</span>
+  <span class="s2">}</span>
+
+  <span class="s0">private static class </span><span class="s1">InnerBrLookup </span><span class="s2">{</span>
+    <span class="s0">static final </span><span class="s1">SparseArray</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">sKeys </span><span class="s2">= </span><span class="s0">new </span><span class="s1">SparseArray</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt;(</span><span class="s3">1</span><span class="s2">);</span>
+
+    <span class="s0">static </span><span class="s2">{</span>
+      <span class="s1">sKeys</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s3">0</span><span class="s2">, </span><span class="s4">&quot;_all&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+  <span class="s2">}</span>
+
+  <span class="s0">private static class </span><span class="s1">InnerLayoutIdLookup </span><span class="s2">{</span>
+    <span class="s0">static final </span><span class="s1">HashMap</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">, </span><span class="s1">Integer</span><span class="s2">&gt; </span><span class="s1">sKeys </span><span class="s2">= </span><span class="s0">new </span><span class="s1">HashMap</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">, </span><span class="s1">Integer</span><span class="s2">&gt;(</span><span class="s3">0</span><span class="s2">);</span>
+  <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

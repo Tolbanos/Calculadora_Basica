@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>MainActivity.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #7a7e85;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">calculadoraevaluable</span>
+
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">os</span><span class="s2">.</span><span class="s1">Bundle</span>
+<span class="s1">import androidx</span><span class="s2">.</span><span class="s1">appcompat</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">AppCompatActivity</span>
+<span class="s1">import com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">calculadoraevaluable</span><span class="s2">.</span><span class="s1">databinding</span><span class="s2">.</span><span class="s1">ActivityMainBinding</span>
+<span class="s1">import kotlin</span><span class="s2">.</span><span class="s1">math</span><span class="s2">.</span><span class="s1">sqrt</span>
+
+<span class="s0">class </span><span class="s1">MainActivity : AppCompatActivity</span><span class="s2">() {</span>
+    <span class="s1">private lateinit </span><span class="s0">var </span><span class="s1">binding: ActivityMainBinding</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">currentNumber: String </span><span class="s2">= </span><span class="s3">&quot;&quot;</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">currentOperator: String </span><span class="s2">= </span><span class="s3">&quot;&quot;  </span><span class="s4">//guarda el operador actual que se esta utilizando</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">previousNumber: String </span><span class="s2">= </span><span class="s3">&quot;&quot; </span><span class="s4">// utiliza el numero previo</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">result: Double </span><span class="s2">= </span><span class="s5">0.0 </span><span class="s4">//almacena el resultado de la operacion</span>
+    <span class="s1">private </span><span class="s0">var </span><span class="s1">justPressedEquals: Boolean </span><span class="s2">= </span><span class="s0">false </span><span class="s4">//reinicia los valores</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState: Bundle?</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState</span><span class="s2">)</span>
+        <span class="s4">//iniciamos LO PRIMERO el binding</span>
+        <span class="s1">binding </span><span class="s2">= </span><span class="s1">ActivityMainBinding</span><span class="s2">.</span><span class="s1">inflate</span><span class="s2">(</span><span class="s1">layoutInflater</span><span class="s2">)</span>
+        <span class="s1">setContentView</span><span class="s2">(</span><span class="s1">binding</span><span class="s2">.</span><span class="s1">root</span><span class="s2">)</span>
+
+        <span class="s4">// botones de control</span>
+        <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnClear</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{</span>
+            <span class="s1">currentOperator </span><span class="s2">= </span><span class="s3">&quot;&quot;</span>
+            <span class="s1">currentNumber </span><span class="s2">= </span><span class="s3">&quot;&quot;</span>
+            <span class="s1">previousNumber </span><span class="s2">= </span><span class="s3">&quot;&quot;</span>
+            <span class="s1">justPressedEquals </span><span class="s2">= </span><span class="s0">false</span>
+            <span class="s1">binding</span><span class="s2">.</span><span class="s1">tvResultado</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s3">&quot;0&quot;</span>
+        <span class="s2">}</span>
+        <span class="s4">//elimina el ultimo digito metido</span>
+        <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnBack?</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">currentNumber</span><span class="s2">.</span><span class="s1">isNotEmpty</span><span class="s2">()) {</span>
+                <span class="s1">currentNumber </span><span class="s2">= </span><span class="s1">currentNumber</span><span class="s2">.</span><span class="s1">dropLast</span><span class="s2">(</span><span class="s5">1</span><span class="s2">)</span>
+                <span class="s1">binding</span><span class="s2">.</span><span class="s1">tvResultado</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">currentNumber</span><span class="s2">.</span><span class="s1">ifEmpty </span><span class="s2">{ </span><span class="s3">&quot;0&quot; </span><span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// operadores</span>
+        <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnMultiplica</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{ </span><span class="s1">handleOperatorClick</span><span class="s2">(</span><span class="s3">&quot;*&quot;</span><span class="s2">) }</span>
+        <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnDivide</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{ </span><span class="s1">handleOperatorClick</span><span class="s2">(</span><span class="s3">&quot;/&quot;</span><span class="s2">) }</span>
+        <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnSuma</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{ </span><span class="s1">handleOperatorClick</span><span class="s2">(</span><span class="s3">&quot;+&quot;</span><span class="s2">) }</span>
+        <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnResta</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{ </span><span class="s1">handleOperatorClick</span><span class="s2">(</span><span class="s3">&quot;-&quot;</span><span class="s2">) }</span>
+
+        <span class="s4">// NUEVO botón para porcentaje %</span>
+        <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnPercentage?</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">currentNumber</span><span class="s2">.</span><span class="s1">isNotEmpty</span><span class="s2">()) {</span>
+                <span class="s0">val </span><span class="s1">percentage </span><span class="s2">= </span><span class="s1">currentNumber</span><span class="s2">.</span><span class="s1">toDouble</span><span class="s2">() / </span><span class="s5">100</span>
+                <span class="s1">currentNumber </span><span class="s2">= </span><span class="s1">percentage</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">()</span>
+                <span class="s1">binding</span><span class="s2">.</span><span class="s1">tvResultado</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">currentNumber</span>
+                <span class="s1">justPressedEquals </span><span class="s2">= </span><span class="s0">true</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// NUEVO botón para raíz cuadrada</span>
+        <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnSquareRoot?</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">currentNumber</span><span class="s2">.</span><span class="s1">isNotEmpty</span><span class="s2">()) {</span>
+                <span class="s0">val </span><span class="s1">number </span><span class="s2">= </span><span class="s1">currentNumber</span><span class="s2">.</span><span class="s1">toDouble</span><span class="s2">()</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">number </span><span class="s2">&gt;= </span><span class="s5">0</span><span class="s2">) { </span><span class="s4">// La raíz cuadrada solo se calcula para números no negativos</span>
+                    <span class="s0">val </span><span class="s1">squareRoot </span><span class="s2">= </span><span class="s1">sqrt</span><span class="s2">(</span><span class="s1">number</span><span class="s2">)</span>
+                    <span class="s1">currentNumber </span><span class="s2">= </span><span class="s1">squareRoot</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">()</span>
+                    <span class="s1">binding</span><span class="s2">.</span><span class="s1">tvResultado</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">currentNumber</span>
+                    <span class="s1">justPressedEquals </span><span class="s2">= </span><span class="s0">true</span>
+                <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                    <span class="s1">binding</span><span class="s2">.</span><span class="s1">tvResultado</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s3">&quot;Error&quot;</span>
+                <span class="s2">}</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// Botones numéricos</span>
+        <span class="s0">val </span><span class="s1">numericButtons </span><span class="s2">= </span><span class="s1">listOf</span><span class="s2">(</span>
+            <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnOne</span><span class="s2">, </span><span class="s1">binding</span><span class="s2">.</span><span class="s1">btnTwo</span><span class="s2">, </span><span class="s1">binding</span><span class="s2">.</span><span class="s1">btnThree</span><span class="s2">, </span><span class="s1">binding</span><span class="s2">.</span><span class="s1">btnFour</span><span class="s2">,</span>
+            <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnFive</span><span class="s2">, </span><span class="s1">binding</span><span class="s2">.</span><span class="s1">btnSix</span><span class="s2">, </span><span class="s1">binding</span><span class="s2">.</span><span class="s1">btnSeven</span><span class="s2">, </span><span class="s1">binding</span><span class="s2">.</span><span class="s1">btnEight</span><span class="s2">,</span>
+            <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnNine</span><span class="s2">, </span><span class="s1">binding</span><span class="s2">.</span><span class="s1">btnCero</span>
+        <span class="s2">)</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">button </span><span class="s0">in </span><span class="s1">numericButtons</span><span class="s2">) {</span>
+            <span class="s1">button</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">justPressedEquals</span><span class="s2">) {</span>
+                    <span class="s1">previousNumber </span><span class="s2">= </span><span class="s3">&quot;&quot;</span>
+                    <span class="s1">justPressedEquals </span><span class="s2">= </span><span class="s0">false</span>
+                <span class="s2">}</span>
+                <span class="s1">handleNumberClick</span><span class="s2">(</span><span class="s1">button</span><span class="s2">.</span><span class="s1">text</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">())</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s4">// llamada botón de Equal &quot;=&quot;</span>
+        <span class="s1">binding</span><span class="s2">.</span><span class="s1">btnEquals</span><span class="s2">.</span><span class="s1">setOnClickListener </span><span class="s2">{ </span><span class="s1">calculate</span><span class="s2">() }</span>
+    <span class="s2">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">handleNumberClick</span><span class="s2">(</span><span class="s1">number: String</span><span class="s2">) {</span>
+        <span class="s1">currentNumber </span><span class="s2">+= </span><span class="s1">number</span>
+        <span class="s1">binding</span><span class="s2">.</span><span class="s1">tvResultado</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">currentNumber</span>
+    <span class="s2">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">handleOperatorClick</span><span class="s2">(</span><span class="s1">operator: String</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">currentNumber</span><span class="s2">.</span><span class="s1">isNotEmpty</span><span class="s2">()) {</span>
+            <span class="s0">if </span><span class="s2">(!</span><span class="s1">justPressedEquals</span><span class="s2">) {</span>
+                <span class="s1">calculate</span><span class="s2">()</span>
+            <span class="s2">}</span>
+            <span class="s1">currentOperator </span><span class="s2">= </span><span class="s1">operator</span>
+            <span class="s1">justPressedEquals </span><span class="s2">= </span><span class="s0">false</span>
+            <span class="s1">previousNumber </span><span class="s2">= </span><span class="s1">currentNumber</span>
+            <span class="s1">currentNumber </span><span class="s2">= </span><span class="s3">&quot;&quot;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">calculate</span><span class="s2">() {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">currentNumber</span><span class="s2">.</span><span class="s1">isNotEmpty</span><span class="s2">() &amp;&amp; </span><span class="s1">previousNumber</span><span class="s2">.</span><span class="s1">isNotEmpty</span><span class="s2">()) {</span>
+            <span class="s0">val </span><span class="s1">previous </span><span class="s2">= </span><span class="s1">previousNumber</span><span class="s2">.</span><span class="s1">toDouble</span><span class="s2">()</span>
+            <span class="s0">val </span><span class="s1">current </span><span class="s2">= </span><span class="s1">currentNumber</span><span class="s2">.</span><span class="s1">toDouble</span><span class="s2">()</span>
+            <span class="s1">result </span><span class="s2">= </span><span class="s0">when </span><span class="s2">(</span><span class="s1">currentOperator</span><span class="s2">) {</span>
+                <span class="s3">&quot;-&quot; </span><span class="s2">-&gt; </span><span class="s1">previous </span><span class="s2">- </span><span class="s1">current</span>
+                <span class="s3">&quot;+&quot; </span><span class="s2">-&gt; </span><span class="s1">previous </span><span class="s2">+ </span><span class="s1">current</span>
+                <span class="s3">&quot;*&quot; </span><span class="s2">-&gt; </span><span class="s1">previous </span><span class="s2">* </span><span class="s1">current</span>
+                <span class="s3">&quot;/&quot; </span><span class="s2">-&gt; </span><span class="s0">if </span><span class="s2">(</span><span class="s1">current </span><span class="s2">!= </span><span class="s5">0.0</span><span class="s2">) </span><span class="s1">previous </span><span class="s2">/ </span><span class="s1">current </span><span class="s0">else </span><span class="s1">Double</span><span class="s2">.</span><span class="s1">NaN</span>
+                <span class="s0">else </span><span class="s2">-&gt; </span><span class="s5">0.0</span>
+            <span class="s2">}</span>
+            <span class="s1">binding</span><span class="s2">.</span><span class="s1">tvResultado</span><span class="s2">.</span><span class="s1">text </span><span class="s2">= </span><span class="s1">result</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">()</span>
+            <span class="s1">currentNumber </span><span class="s2">= </span><span class="s1">result</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">()</span>
+            <span class="s1">justPressedEquals </span><span class="s2">= </span><span class="s0">true</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
